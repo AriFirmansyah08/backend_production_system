@@ -2,6 +2,10 @@ const model = require("./../../model/dailyreport.model");
 const api = require("./../../tools/common");
 const DailyReport = require('./../../model/dailyreport.model'); // Sesuaikan dengan model Anda
 
+
+
+
+
 // GET all shift leader
 exports.getAllleaders = async (req, res) => {
     let data = await model.getAll('mst_leaders');
@@ -16,7 +20,7 @@ exports.getAllHistory = async (req, res) => {
 
 // GET all daily reports
 exports.getAlldaily = async (req, res) => {
-    let data = await model.getAllDaily('daily_report');
+    let data = await model.getAllDaily('v_daily_report');
     return api.ok(res, data);
 };
 
@@ -43,16 +47,15 @@ exports.insertdaily = async (req, res) => {
     // console.log(req.body);
     let dataLempar = req.body.form_data
     let lastRecord = await DailyReport.getLastData('daily_report')
-
+    // lastRecord.status_reset == 'open'
     if (lastRecord.status_reset == 'close'){
         let dataInsert = {
             shift_leaders: dataLempar.shift_leader,
             production_hours: dataLempar.production_hours,
             result: dataLempar.result,
             start: 0,
-            finish: lastRecord.finish + dataLempar.result,
+            finish: dataLempar.result,
             status_reset: 'open'
-
         }
         let insert = await DailyReport.insert(dataInsert)
     } else{
@@ -71,26 +74,33 @@ exports.insertdaily = async (req, res) => {
 
 // Update daily report by ID
 exports.updatedaily = async (req, res) => {
-    const { id_dailyReport } = req.params;
-    const updatedData = req.body;
-    try {
-        const updatedDailyReport = await DailyReport.findByIdAndUpdate(
-            id_dailyReport,
-            updatedData,
-            { new: true } // Mengembalikan data yang sudah diupdate
-        );
-        if (!updatedDailyReport) {
-            return res.status(404).json({
-                message: 'Daily report not found'
-            });
-        }
-        res.status(200).json(updatedDailyReport);
-    } catch (error) {
-        res.status(400).json({
-            message: error.message
-        });
-    }
+    const id_dailyReport = req.params.id;
+    const data = req.body.form_data; // Data yang ingin diupdate
+
+    const updatedReport = await model.update(id_dailyReport, data)
+    return api.ok(res, updatedReport);
+    // Cek jika data tidak ditemukan
+    // if (!updatedReport) {
+    //     return api.notFound(res, 'Daily report not found');
+    // }
+    // // Respon dengan data yang sudah diupdate
+    // return api.ok(res, updatedReport);
+    // try {
+    //     // Panggil fungsi model untuk melakukan update
+    //     // const updatedReport = await model.update(id_dailyReport, data);
+
+    //     // // Cek jika data tidak ditemukan
+    //     // if (!updatedReport) {
+    //     //     return api.notFound(res, 'Daily report not found');
+    //     // }
+    //     // // Respon dengan data yang sudah diupdate
+    //     return api.ok(res, updatedReport);
+    // } catch (error) {
+    //     // Tangani kesalahan
+    //     return api.error(res, error.message);
+    // }
 };
+
 
 // DELETE delete a daily report by ID
 exports.deletedaily = async (req, res) => {
@@ -111,6 +121,7 @@ exports.deletedaily = async (req, res) => {
         });
     }
 };
+
 
 
 //resetDaily

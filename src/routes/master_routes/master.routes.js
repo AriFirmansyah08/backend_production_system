@@ -25,7 +25,7 @@ router.get('/daily_report', DailyreportController.getAlldaily);
 router.get('/daily_report/:id', DailyreportController.getdailyById);
 router.post('/daily_report', DailyreportController.insertdaily);
 router.post('/reset_daily_report', DailyreportController.resetDaily);
-router.put('/daily_report/:id', DailyreportController. updatedaily);
+router.put('/daily_report/:id', DailyreportController.updatedaily);
 
 
 // shift leaders
