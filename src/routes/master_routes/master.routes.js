@@ -4,7 +4,9 @@ var router = express.Router();
 const ApplicationController = require('../../controller/master_controller/ApplicationController');
 const { uploadImage } = require('../../services/file-handler.service');
 const ImageHandler = require('../../controller/master_controller/ImageHandlerController');
-const DailyreportController = require('../../controller/master_controller/DailyreportController')
+const DailyreportController = require('../../controller/master_controller/DailyreportController');
+const ScheduleController = require('../../controller/master_controller/ScheduleController');
+const AbnormalController = require('../../controller/master_controller/AbnormalController');
 
 // Image Upload
 router.post('/image', uploadImage.single('file'), ImageHandler.uploadImage)
@@ -26,11 +28,18 @@ router.get('/daily_report/:id', DailyreportController.getdailyById);
 router.post('/daily_report', DailyreportController.insertdaily);
 router.post('/reset_daily_report', DailyreportController.resetDaily);
 router.put('/daily_report/:id', DailyreportController.updatedaily);
-
-
 // shift leaders
 router.get('/leaders', DailyreportController.getAllleaders); // satu form dengan daily report
 
+
 router.get('/history', DailyreportController.getAllHistory);
+
+
+router.get('/schedule', ScheduleController.getAllschedule);
+router.get('/schedule/:id', ScheduleController.getByIdschedule);
+router.post('/schedule', ScheduleController.insertschedule);
+
+
+router.get('/abnormal', AbnormalController.getAllabnormal);
 
 module.exports = router;

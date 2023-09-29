@@ -5,20 +5,20 @@ getAll = async (tabel) => await daily.select('*').from(tabel);
 
 //get all tabel daily_report
 getAllDaily = async (tabel) => await daily.select('*').from(tabel).where('status_reset','open');
-getById = async (id_dailyReport) => await daily.select('*').from('daily_report').where('id_dailyReport', id_dailyReport);
+getById = async (id_daily_report) => await daily.select('*').from('daily_report').where('id_daily_report', id_daily_report);
 getWhere = async (column, value) => await daily.select('*').from('daily_report').where(column, value);
 insert = async (data) => await daily('daily_report').insert(data);
-insertReset = async (data) => await daily('reset').insert(data);
+insertReset = async (data) => await daily('history').insert(data);
 
 //get data terakhir(last)
 getLastData = async (tabel) => await daily.select('*')
     .from(tabel)
-    .orderBy('id_dailyReport', 'desc')
+    .orderBy('id_daily_report', 'desc')
     .first()
 
-update = async (id_dailyReport, data) => await daily('daily_report').where('id_dailyReport', id_dailyReport).update(data);
+update = async (id_daily_report, data) => await daily('daily_report').where('id_daily_report', id_daily_report).update(data);
 
-deleteData = async (id_dailyReport) => await daily('daily_report').where('id_dailyReport', id_dailyReport).del();
+deleteData = async (id_daily_report) => await daily('daily_report').where('id_daily_report', id_daily_report).del();
 
 
 module.exports = {

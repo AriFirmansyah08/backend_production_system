@@ -3,9 +3,6 @@ const api = require("./../../tools/common");
 const DailyReport = require('./../../model/dailyreport.model'); // Sesuaikan dengan model Anda
 
 
-
-
-
 // GET all shift leader
 exports.getAllleaders = async (req, res) => {
     let data = await model.getAll('mst_leaders');
@@ -14,21 +11,22 @@ exports.getAllleaders = async (req, res) => {
 
 // GET all shift leader
 exports.getAllHistory = async (req, res) => {
-    let data = await model.getAll('reset');
+    let data = await model.getAll('history');
     return api.ok(res, data);
 };
 
 // GET all daily reports
 exports.getAlldaily = async (req, res) => {
-    let data = await model.getAllDaily('v_daily_report');
+    let data = await model.getAllDaily('daily_report');
     return api.ok(res, data);
 };
 
+
 // GET daily report by ID
 exports.getdailyById = async (req, res) => {
-    const id_dailyReport = req.params.id
+    const id_daily_report = req.params.id
     try {
-        const dailyReport = await DailyReport.getById(id_dailyReport);
+        const dailyReport = await DailyReport.getById(id_daily_report);
         if (!dailyReport) {
             return res.status(404).json({
                 message: 'Daily report not found'
@@ -50,7 +48,7 @@ exports.insertdaily = async (req, res) => {
     // lastRecord.status_reset == 'open'
     if (lastRecord.status_reset == 'close'){
         let dataInsert = {
-            shift_leaders: dataLempar.shift_leader,
+            shift_leaders: dataLempar.shift_leaders,
             production_hours: dataLempar.production_hours,
             result: dataLempar.result,
             start: 0,
@@ -60,7 +58,7 @@ exports.insertdaily = async (req, res) => {
         let insert = await DailyReport.insert(dataInsert)
     } else{
         let dataInsert = {
-            shift_leaders: dataLempar.shift_leader,
+            shift_leaders: dataLempar.shift_leaders,
             production_hours: dataLempar.production_hours,
             result: dataLempar.result,
             start: lastRecord.finish,
@@ -74,41 +72,21 @@ exports.insertdaily = async (req, res) => {
 
 // Update daily report by ID
 exports.updatedaily = async (req, res) => {
-    const id_dailyReport = req.params.id;
+    const id_daily_report = req.params.id;
     const data = req.body.form_data; // Data yang ingin diupdate
 
-    const updatedReport = await model.update(id_dailyReport, data)
+    const updatedReport = await model.update(id_daily_report, data)
     return api.ok(res, updatedReport);
-    // Cek jika data tidak ditemukan
-    // if (!updatedReport) {
-    //     return api.notFound(res, 'Daily report not found');
-    // }
-    // // Respon dengan data yang sudah diupdate
-    // return api.ok(res, updatedReport);
-    // try {
-    //     // Panggil fungsi model untuk melakukan update
-    //     // const updatedReport = await model.update(id_dailyReport, data);
-
-    //     // // Cek jika data tidak ditemukan
-    //     // if (!updatedReport) {
-    //     //     return api.notFound(res, 'Daily report not found');
-    //     // }
-    //     // // Respon dengan data yang sudah diupdate
-    //     return api.ok(res, updatedReport);
-    // } catch (error) {
-    //     // Tangani kesalahan
-    //     return api.error(res, error.message);
-    // }
 };
 
 
 // DELETE delete a daily report by ID
 exports.deletedaily = async (req, res) => {
     const {
-        id_dailyReport
+        id_daily_report
     } = req.params;
     try {
-        const deletedDailyReport = await DailyReport.findByIdAndRemove(id_dailyReport);
+        const deletedDailyReport = await DailyReport.findByIdAndRemove(id_daily_report);
         if (!deletedDailyReport) {
             return res.status(404).json({
                 message: 'Daily report not found'
@@ -127,15 +105,15 @@ exports.deletedaily = async (req, res) => {
 //resetDaily
 exports.resetDaily = async (req,res) => {
     try{
-        var id_dailyReport = req.body.form_data.map(item => ({id: item.id_dailyReport}))
+        var id_daily_report = req.body.form_data.map(item => ({id: item.id_daily_report}))
         
         let insert = await DailyReport.insertReset({})
-        for(let i = 0; i < id_dailyReport.length; i++){
+        for(let i = 0; i < id_daily_report.length; i++){
             var dataUpdate = {
                 status_reset: 'close',
                 id_reset: insert[0]
             }
-            DailyReport.update(id_dailyReport[i].id, dataUpdate)
+            DailyReport.update(id_daily_report[i].id, dataUpdate)
         }
         return api.ok(res, insert[0]);
     } catch(error) {
