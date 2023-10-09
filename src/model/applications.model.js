@@ -13,7 +13,11 @@ deleteData = async (id) =>
 getCustomApps = async (userId) =>
   await gateway.select(
     gateway.raw(
-      `a.*, uc.id AS custom_id FROM applications AS a LEFT JOIN user_app_customizations AS uc ON a.app_id = uc.app_id AND uc.user_id = ${userId} ORDER BY COALESCE(uc.custom_order, a.app_id)`
+      `a.*, uc.id AS custom_id FROM applications 
+      AS a LEFT JOIN user_app_customizations 
+      AS uc ON a.app_id = uc.app_id 
+      AND uc.user_id = ${userId} 
+      ORDER BY COALESCE(uc.custom_order, a.app_id)`
     )
   );
 

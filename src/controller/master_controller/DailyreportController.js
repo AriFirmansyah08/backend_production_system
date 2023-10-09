@@ -10,8 +10,8 @@ exports.getAllleaders = async (req, res) => {
 };
 
 // GET all shift leader
-exports.getAllHistory = async (req, res) => {
-    let data = await model.getAll('history');
+getAllhistory = async (req, res) => {
+    let data = await model.getAllHistory('history');
     return api.ok(res, data);
 };
 
@@ -27,6 +27,7 @@ exports.getdailyById = async (req, res) => {
     const id_daily_report = req.params.id
     try {
         const dailyReport = await DailyReport.getById(id_daily_report);
+        console.log(dailyReport);
         if (!dailyReport) {
             return res.status(404).json({
                 message: 'Daily report not found'
@@ -39,6 +40,17 @@ exports.getdailyById = async (req, res) => {
         });
     }
 };
+getByIdHistory = async (req, res) => {
+    if (!isNaN(req.params.id)) {
+        let data = await model.getByIdHistory(req.params.id);
+        return api.ok(res, data);
+    } else {
+        return api.error(res, "Bad Request", 400);
+    }
+}
+
+
+
 
 // POST create a new daily report
 exports.insertdaily = async (req, res) => {
@@ -100,13 +112,10 @@ exports.deletedaily = async (req, res) => {
     }
 };
 
-
-
 //resetDaily
 exports.resetDaily = async (req,res) => {
     try{
         var id_daily_report = req.body.form_data.map(item => ({id: item.id_daily_report}))
-        
         let insert = await DailyReport.insertReset({})
         for(let i = 0; i < id_daily_report.length; i++){
             var dataUpdate = {

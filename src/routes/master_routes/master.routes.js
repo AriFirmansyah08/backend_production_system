@@ -28,6 +28,9 @@ router.get('/daily_report/:id', DailyreportController.getdailyById);
 router.post('/daily_report', DailyreportController.insertdaily);
 router.post('/reset_daily_report', DailyreportController.resetDaily);
 router.put('/daily_report/:id', DailyreportController.updatedaily);
+
+
+router.get('/history/:id', DailyreportController.getAllhistory);
 // shift leaders
 router.get('/leaders', DailyreportController.getAllleaders); // satu form dengan daily report
 
@@ -38,7 +41,6 @@ router.get('/history', DailyreportController.getAllHistory);
 router.get('/schedule', ScheduleController.getAllschedule);
 router.get('/schedule/:id', ScheduleController.getByIdschedule);
 router.post('/schedule', ScheduleController.insertschedule);
-
 
 router.get('/abnormal', AbnormalController.getAllabnormal);
 
