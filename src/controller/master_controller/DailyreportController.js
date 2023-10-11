@@ -10,7 +10,7 @@ exports.getAllleaders = async (req, res) => {
 };
 
 // GET all shift leader
-getAllhistory = async (req, res) => {
+exports.getAllhistory = async (req, res) => {
     let data = await model.getAllHistory('history');
     return api.ok(res, data);
 };
@@ -20,7 +20,6 @@ exports.getAlldaily = async (req, res) => {
     let data = await model.getAllDaily('daily_report');
     return api.ok(res, data);
 };
-
 
 // GET daily report by ID
 exports.getdailyById = async (req, res) => {
@@ -40,7 +39,8 @@ exports.getdailyById = async (req, res) => {
         });
     }
 };
-getByIdHistory = async (req, res) => {
+
+exports.getByIdHistory = async (req, res) => {
     if (!isNaN(req.params.id)) {
         let data = await model.getByIdHistory(req.params.id);
         return api.ok(res, data);
@@ -48,9 +48,6 @@ getByIdHistory = async (req, res) => {
         return api.error(res, "Bad Request", 400);
     }
 }
-
-
-
 
 // POST create a new daily report
 exports.insertdaily = async (req, res) => {
@@ -90,7 +87,6 @@ exports.updatedaily = async (req, res) => {
     const updatedReport = await model.update(id_daily_report, data)
     return api.ok(res, updatedReport);
 };
-
 
 // DELETE delete a daily report by ID
 exports.deletedaily = async (req, res) => {

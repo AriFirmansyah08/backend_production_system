@@ -25,7 +25,7 @@ app.get("*", (req, res) => {
   res.redirect("/api/not-found");
 });
 
-const PORT = process.env.PORT || 8800;
+const PORT = process.env.PORT || 8880;
 app.listen(PORT, () => {
   console.log(
     `aio - production Service is running on port ${PORT}. ${
