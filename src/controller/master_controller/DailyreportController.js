@@ -48,6 +48,14 @@ exports.getByIdHistory = async (req, res) => {
         return api.error(res, "Bad Request", 400);
     }
 }
+// exports.getByIdabnormal = async (req, res) => {
+//     if (!isNaN(req.params.id)) {
+//         let data = await model.getByIdAbnormal(req.params.id);
+//         return api.ok(res, data);
+//     } else {
+//         return api.error(res, "Bad Request", 400);
+//     }
+// }
 
 // POST create a new daily report
 exports.insertdaily = async (req, res) => {

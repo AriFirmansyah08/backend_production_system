@@ -22,26 +22,29 @@ router.put('/application/:id', ApplicationController.updateApp);
 router.delete('/application/:id', ApplicationController.deleteApp);
 router.delete('/user-app/:id', ApplicationController.deleteCustomApp);
 
-// daily report
+// daily report data
 router.get('/daily_report', DailyreportController.getAlldaily);
 router.get('/daily_report/:id', DailyreportController.getdailyById);
 router.post('/daily_report', DailyreportController.insertdaily);
 router.post('/reset_daily_report', DailyreportController.resetDaily);
 router.put('/daily_report/:id', DailyreportController.updatedaily);
 
-router.get('/history/:id', DailyreportController.getByIdHistory);
-// shift leaders
+
+// shift leaders data
 router.get('/leaders', DailyreportController.getAllleaders)
 
-
+//history data
 router.get('/history', DailyreportController.getAllhistory);
+router.get('/history/:id', DailyreportController.getByIdHistory);
 
-
+//schedule data
 router.get('/schedule', ScheduleController.getAllschedule);
 router.get('/schedule/:id', ScheduleController.getByIdschedule);
 router.post('/schedule', ScheduleController.insertschedule);
 
+//abnormal data
 router.get('/abnormal', AbnormalController.getAllabnormal);
 router.post('/abnormal', AbnormalController.insertabnormal);
+router.get('/abnormal/:id', AbnormalController.getByIdabnormal);
 
 module.exports = router;
