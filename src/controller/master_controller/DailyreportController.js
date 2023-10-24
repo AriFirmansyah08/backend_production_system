@@ -48,14 +48,6 @@ exports.getByIdHistory = async (req, res) => {
         return api.error(res, "Bad Request", 400);
     }
 }
-// exports.getByIdabnormal = async (req, res) => {
-//     if (!isNaN(req.params.id)) {
-//         let data = await model.getByIdAbnormal(req.params.id);
-//         return api.ok(res, data);
-//     } else {
-//         return api.error(res, "Bad Request", 400);
-//     }
-// }
 
 // POST create a new daily report
 exports.insertdaily = async (req, res) => {
@@ -63,7 +55,7 @@ exports.insertdaily = async (req, res) => {
     let dataLempar = req.body.form_data
     let lastRecord = await DailyReport.getLastData('daily_report')
     // lastRecord.status_reset == 'open'
-    if (lastRecord.status_reset == 'close'){
+    if (lastRecord.status_reset == 'close') {
         let dataInsert = {
             shift_leaders: dataLempar.shift_leaders,
             production_hours: dataLempar.production_hours,
@@ -73,7 +65,7 @@ exports.insertdaily = async (req, res) => {
             status_reset: 'open'
         }
         let insert = await DailyReport.insert(dataInsert)
-    } else{
+    } else {
         let dataInsert = {
             shift_leaders: dataLempar.shift_leaders,
             production_hours: dataLempar.production_hours,
@@ -81,8 +73,8 @@ exports.insertdaily = async (req, res) => {
             start: lastRecord.finish,
             finish: lastRecord.finish + dataLempar.result,
             status_reset: 'open'
-    }
-    let insert = await DailyReport.insert(dataInsert)
+        }
+        let insert = await DailyReport.insert(dataInsert)
     }
     return api.ok(res, insert);
 };
@@ -134,5 +126,16 @@ exports.resetDaily = async (req,res) => {
             message: error.message
         });
     }
-
 }
+
+exports.insertData = async (req, res) => {
+    let data = await model.insertData(req.body.form_data);
+    return api.ok(res, data);
+}
+
+exports.updatereset = async (req, res) => {
+    let data = await model.updateReset(req.params.id, req.body.form_data);
+    return api.ok(res, data);
+}   
+
+

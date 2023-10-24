@@ -56,7 +56,6 @@ deleteCustomApp = async (req, res) => {
         return api.error(res, 'Bad Request', 400)
     }
 }
-
 module.exports = {
     getAppById,
     getAllApps,
