@@ -127,7 +127,6 @@ exports.resetDaily = async (req,res) => {
         });
     }
 }
-
 exports.insertData = async (req, res) => {
     let data = await model.insertData(req.body.form_data);
     return api.ok(res, data);

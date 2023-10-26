@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const ApplicationController = require('../../controller/master_controller/ApplicationController');
-const { uploadImage, uploadImage_user } = require('../../services/file-handler.service');
+const { uploadImage} = require('../../services/file-handler.service');
 const ImageHandler = require('../../controller/master_controller/ImageHandlerController');
 const DailyreportController = require('../../controller/master_controller/DailyreportController');
 const ScheduleController = require('../../controller/master_controller/ScheduleController');
@@ -32,8 +32,6 @@ router.post('/daily_report', DailyreportController.insertdaily);
 router.post('/reset_daily_report', DailyreportController.resetDaily);
 router.put('/daily_report/:id', DailyreportController.updatedaily);
 
-
-
 // shift leaders data
 router.get('/leaders', DailyreportController.getAllleaders)
 
@@ -51,5 +49,8 @@ router.post('/schedule', ScheduleController.insertschedule);
 router.get('/abnormal', AbnormalController.getAllabnormal);
 router.post('/abnormal', AbnormalController.insertabnormal);
 router.get('/abnormal/:id', AbnormalController.getByIdabnormal);
+//penggabungan route
+
+router.get('/machine', AbnormalController.getAllMachine);
 
 module.exports = router;
